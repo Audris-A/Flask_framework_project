@@ -1,0 +1,232 @@
+.navigationBarStyle {
+    background-color: #9B1A34;
+    opacity: 90%
+}
+
+.VPPLogo {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+.LULogo {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+}
+
+.footerText {
+    color: white;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1rem
+}
+
+.footerContent {
+    background-color: #9B1A34;
+    opacity: 90%
+}
+
+#dotObject {
+    text-align:center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.plotDataImage{
+    position: relative;
+}
+
+.offsetBlock{
+    display: none
+}
+
+.elikoPlotForm {
+    border-style: solid;
+    border: 5px;
+    margin-top: 20px;
+    margin-bottom: 20px
+}
+
+.form-group > input, select{
+    max-width: 500px;
+}
+
+#navbarButtons a {
+  transition: 0.3s;
+  color: white;
+  background-color: #9B1A34;
+}
+
+#navbarButtons a:hover {
+  border-radius: 10px;
+  background-color: white;
+  color: #9B1A34;
+}
+
+.ulistObjects > li > a{
+  color: white;
+}
+
+/* image overlay */
+.container {
+  position: relative;
+}
+
+.imageUnderOverlay {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  right: 0;
+  background-color: #9B1A34;
+  overflow: hidden;
+  width: 100%;
+  height:0;
+  transition: .5s ease;
+  opacity: 90%;
+}
+
+.container:hover .overlay {
+  bottom: 0;
+  height: 100%;
+}
+
+#zoneId_chosen {
+  max-width: 500px !important;
+  width: 100% !important;
+  margin-bottom: 15px;
+}
+
+.chosen-container-multi .chosen-choices {
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  padding: .375rem .75rem;
+}
+
+#zoneId:invalid {
+    height: 0px !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    display: flex !important;
+}
+
+#zoneId:invalid[multiple] {
+    margin-top: 15px !important;
+}
+
+.overlayText {
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Slide show css */
+* {box-sizing:border-box}
+
+/* Slideshow container */
+.slideshow-container, #kautkascits {
+  max-width: 100%;
+  position: relative;
+  margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: #9B1A34;
+  color: white;
+  opacity: 90%;
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.slideShowImagefade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 3s;
+  animation-name: fade;
+  animation-duration: 3s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4}
+  to {opacity: 1}
+}

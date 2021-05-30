@@ -1,0 +1,14 @@
+{% extends "template.html" %}
+{% block title %} Datu vizualizācija {% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div style="display: block; margin: auto; height: auto">
+            <img src={{image}} alt="Plot data" class="plotDataImage" width="100%">
+        </div>
+        <form action="/analysis" method="post" style="margin-bottom: 20px">
+            <button class="btn btn-primary btn-sm" name="home" type="submit">Atpakaļ</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

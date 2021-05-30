@@ -1,0 +1,127 @@
+{% extends "template.html" %}
+{% block title %} Datu analīzes tests {% endblock %}
+{% block content %}
+<div class="container" id="bodyBlock">
+    <div class="row">
+        <div class="col-md-3 col-lg-3 col-xl-3"></div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
+            <form action="/plotSystemData" method="post" class="elikoPlotForm">
+                <div class="form-group">
+                    <label for="deploymentVenue">Mērķa vide</label>
+                    <select name="deploymentVenue"
+                            id="deploymentVenue"
+                            class="form-control"
+                            onchange="if (this.selectedIndex) { checkOffset() }; setCustomValidation(this, '')"
+                            oninvalid="setCustomValidation(this, 'mērķa vidi')"
+                            required>
+                        <option value=""></option>
+                        {% for venue in venues %}
+                            <option value={{venue["id"]}}>{{ venue["name"] }}</option>
+                        {% endfor %}
+                    </select><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Lokalizācijas sistēma</label>
+                    <select name="type"
+                            id="type"
+                            onchange="if (this.selectedIndex) checkOffset(); setCustomValidation(this, '')"
+                            class="form-control"
+                            oninvalid="setCustomValidation(this, 'lokalizācijas sistēmu')"
+                            required>
+                        <option value=""></option>
+                        <option value="Decawave">Decawave</option>
+                        <option value="Eliko">Eliko</option>
+                    </select><br>
+                </div>
+
+                <div class="form-group offsetBlock">
+                    <label for="offset">Nobīde</label>
+                    <input type="number"
+                           id="offset"
+                           name="offset"
+                           class="form-control"
+                           onchange="setCustomValidation(this, '')"><br>
+                </div>
+
+                <div class="form-group offsetBlock">
+                    <label for="zoneId">Zona</label>
+                    <select data-placeholder=" "
+                            class="form-select chosen-select"
+                            id="zoneId"
+                            name="zoneId"
+                            onchange="setCustomValidation(this, '')"
+                            multiple>
+                        <option value=""></option>
+                        <option value="A12">A12</option>
+                        <option value="B01">B01</option>
+                        <option value="C12">C12</option>
+                        <option value="D12">D12</option>
+                    </select>
+
+                    <br><button class="btn btn-secondary btn-sm" name="zoneSelect" type="button" onclick="selectAllZones()">Visas</button>
+                    <button class="btn btn-secondary btn-sm" name="zoneDelete" type="button" onclick="deselectAllZones()">Nodzēst</button>
+                </div>
+
+                <div class="form-group" id="rerenderDeploymentNames">
+                    <label for="deploymentName">Izvietošanas nosaukums</label>
+                    <select name="deploymentName"
+                            id="deploymentName"
+                            class="form-control"
+                            onchange="setCustomValidation(this, '')"
+                            oninvalid="setCustomValidation(this, 'izvietošanas nosaukumu')"
+                            required>
+                        {% for deployment_name in deployment_names %}
+                            <option value={{deployment_name["name"]}}>{{ deployment_name["name"] }}</option>
+                        {% endfor %}
+                    </select><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateFrom">Datums no</label>
+                    <input id="dateFrom"
+                           name="dateFrom"
+                           class="form-control datepicker"
+                           oninput="setCustomValidation(this, '')"
+                           oninvalid="setCustomValidation(this, 'datumu no')"
+                           required><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeFrom">Laiks no</label>
+                    <input id="timeFrom"
+                           name="timeFrom"
+                           class="form-control timepicker"
+                           oninput="setCustomValidation(this, '')"
+                           oninvalid="setCustomValidation(this, 'laiku no')"
+                           required><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="dateTo">Datums līdz</label>
+                    <input id="dateTo"
+                           name="dateTo"
+                           class="form-control datepicker"
+                           oninput="setCustomValidation(this, '')"
+                           oninvalid="setCustomValidation(this, 'datumu līdz')"
+                           required><br>
+                </div>
+
+                <div class="form-group">
+                    <label for="timeTo">Laiks līdz</label>
+                    <input id="timeTo"
+                           name="timeTo"
+                           class="form-control timepicker"
+                           oninput="setCustomValidation(this, '')"
+                           oninvalid="setCustomValidation(this, 'laiku līdz')"
+                           required><br>
+                </div>
+
+                <button class="btn btn-primary btn-sm" name="drawPlot" type="submit">Zīmēt</button>
+            </form>
+        </div>
+
+        <div class="col-md-3 col-lg-3 col-xl-3"></div>
+    </div>
+</div>
+{% endblock %}

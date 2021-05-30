@@ -1,0 +1,35 @@
+<!--
+    To-Do: CRUD iespējas saistībā ar zonām, izveidot zonas (nosaukums; attēls; vieta as in vispārīgā lokācija, kur notika deployment)
+      Katrā vietā, kur ir kaut kāda atlase, izgūt datus no datubāzes. Iespējot skatīt logu, kur var, atlasīt visas zonas, dzēst zonas un
+      pievienot jaunas.
+-->
+
+{% extends "template.html" %}
+{% block title %} Sākumlapa {% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <img src="{{url_for('static', filename='./images/VPPTeam.jpg')}}" class="img-fluid imageUnderOverlay" alt="Italian Trulli">
+
+            <div class="overlay">
+                <div class="overlayText">Multidisciplināra pieeja COVID19 un citu nākotnes epidēmiju monitorēšanai, kontrolei un ierobežošanai Latvijā</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="slideshow-container">
+                <div id="imageSlider"></div>
+
+                <div id="sliderButtons"></div>
+
+                <div id="dotObject"></div>
+
+                <div id="datepickerexample"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="{{ url_for('static', filename='scripts/js/main.js') }}"></script>
+{% endblock %}

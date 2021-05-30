@@ -1,8 +1,14 @@
 <div class="form-group" id="rerenderDeploymentNames">
-    <label for="deploymentName">Testēšanas dienas nosaukums</label>
-    <select name="deploymentName" id="deploymentName" class="form-control" required>
+    <label class="form-label" for="deploymentName">Izvietošanas nosaukums</label>
+    <select name="deploymentName"
+            id="deploymentName"
+            class="form-select formSelects"
+            required>
         {% for deployment_name in deployment_names %}
             <option value={{deployment_name["name"]}}>{{ deployment_name["name"] }}</option>
         {% endfor %}
-    </select><br><br>
+    </select><br>
+    <div class="invalid-feedback">
+        Izvēlieties testēšanas dienas nosaukumu!
+    </div>
 </div>

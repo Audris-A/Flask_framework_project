@@ -5,52 +5,55 @@
     <div class="row">
         <div class="col-md-3 col-lg-3 col-xl-3"></div>
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-            <form action="/plotSystemData" method="post" class="elikoPlotForm">
+            <form action="/plotSystemData" method="post" class="elikoPlotForm needs-validation" novalidate>
                 <div class="form-group">
-                    <label for="deploymentVenue">Mērķa vide</label>
+                    <label class="form-label" for="deploymentVenue">Mērķa vide</label>
                     <select name="deploymentVenue"
                             id="deploymentVenue"
-                            class="form-control"
-                            onchange="if (this.selectedIndex) { checkOffset() }; setCustomValidation(this, '')"
-                            oninvalid="setCustomValidation(this, 'mērķa vidi')"
+                            class="form-select formSelects"
+                            onchange="checkFields()"
                             required>
-                        <option value=""></option>
                         {% for venue in venues %}
                             <option value={{venue["id"]}}>{{ venue["name"] }}</option>
                         {% endfor %}
                     </select><br>
+                    <div class="invalid-feedback">
+                        Izvēlieties mērķa vidi!
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="type">Lokalizācijas sistēma</label>
+                    <label class="form-label" for="type">Lokalizācijas sistēma</label>
                     <select name="type"
                             id="type"
-                            onchange="if (this.selectedIndex) checkOffset(); setCustomValidation(this, '')"
-                            class="form-control"
-                            oninvalid="setCustomValidation(this, 'lokalizācijas sistēmu')"
+                            onchange="checkFields()"
+                            class="form-select formSelects"
                             required>
-                        <option value=""></option>
                         <option value="Decawave">Decawave</option>
                         <option value="Eliko">Eliko</option>
                     </select><br>
+                    <div class="invalid-feedback">
+                        Izvēlieties lokalizācijas sistēmu!
+                    </div>
                 </div>
 
                 <div class="form-group offsetBlock">
-                    <label for="offset">Nobīde</label>
+                    <label class="form-label" for="offset">Nobīde</label>
                     <input type="number"
                            id="offset"
                            name="offset"
-                           class="form-control"
-                           onchange="setCustomValidation(this, '')"><br>
+                           class="form-control"><br>
+                    <div class="invalid-feedback">
+                        Ievadiet vēlamo nobīdi!
+                    </div>
                 </div>
 
                 <div class="form-group offsetBlock">
-                    <label for="zoneId">Zona</label>
+                    <label class="form-label" for="zoneId">Zona</label>
                     <select data-placeholder=" "
                             class="form-select chosen-select"
                             id="zoneId"
                             name="zoneId"
-                            onchange="setCustomValidation(this, '')"
                             multiple>
                         <option value=""></option>
                         <option value="A12">A12</option>
@@ -58,63 +61,71 @@
                         <option value="C12">C12</option>
                         <option value="D12">D12</option>
                     </select>
+                    <div class="invalid-feedback">
+                        Izvēlieties zonu vai zonas!
+                    </div>
 
                     <br><button class="btn btn-secondary btn-sm" name="zoneSelect" type="button" onclick="selectAllZones()">Visas</button>
                     <button class="btn btn-secondary btn-sm" name="zoneDelete" type="button" onclick="deselectAllZones()">Nodzēst</button>
                 </div>
 
                 <div class="form-group" id="rerenderDeploymentNames">
-                    <label for="deploymentName">Izvietošanas nosaukums</label>
+                    <label class="form-label" for="deploymentName">Izvietošanas nosaukums</label>
                     <select name="deploymentName"
                             id="deploymentName"
-                            class="form-control"
-                            onchange="setCustomValidation(this, '')"
-                            oninvalid="setCustomValidation(this, 'izvietošanas nosaukumu')"
+                            class="form-select formSelects"
                             required>
                         {% for deployment_name in deployment_names %}
                             <option value={{deployment_name["name"]}}>{{ deployment_name["name"] }}</option>
                         {% endfor %}
                     </select><br>
+                    <div class="invalid-feedback">
+                        Izvēlieties testēšanas dienas nosaukumu!
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="dateFrom">Datums no</label>
+                    <label class="form-label" for="dateFrom">Datums no</label>
                     <input id="dateFrom"
                            name="dateFrom"
                            class="form-control datepicker"
-                           oninput="setCustomValidation(this, '')"
-                           oninvalid="setCustomValidation(this, 'datumu no')"
                            required><br>
+                    <div class="invalid-feedback">
+                        Izvēlieties datumu no!
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="timeFrom">Laiks no</label>
+                    <label class="form-label" for="timeFrom">Laiks no</label>
                     <input id="timeFrom"
                            name="timeFrom"
                            class="form-control timepicker"
-                           oninput="setCustomValidation(this, '')"
-                           oninvalid="setCustomValidation(this, 'laiku no')"
                            required><br>
+                    <div class="invalid-feedback">
+                        Izvēlieties laiku no!
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="dateTo">Datums līdz</label>
+                    <label class="form-label" for="dateTo">Datums līdz</label>
                     <input id="dateTo"
                            name="dateTo"
                            class="form-control datepicker"
-                           oninput="setCustomValidation(this, '')"
-                           oninvalid="setCustomValidation(this, 'datumu līdz')"
                            required><br>
+                    <div class="invalid-feedback">
+                        Izvēlieties datumu līdz!
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="timeTo">Laiks līdz</label>
+                    <label class="form-label" for="timeTo">Laiks līdz</label>
                     <input id="timeTo"
                            name="timeTo"
                            class="form-control timepicker"
-                           oninput="setCustomValidation(this, '')"
-                           oninvalid="setCustomValidation(this, 'laiku līdz')"
                            required><br>
+                    <div class="invalid-feedback">
+                        Izvēlieties laiku līdz!
+                    </div>
                 </div>
 
                 <button class="btn btn-primary btn-sm" name="drawPlot" type="submit">Zīmēt</button>

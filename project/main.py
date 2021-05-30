@@ -152,12 +152,26 @@ def formatElikoData(datetimeFrom, datetimeTo, deploymentName):
     global y_min
     global y_max
 
-    records = []
+    #records = []
     distinctRecords = {}
-    for x in locationCollection.find({"zone_id": deploymentName}):
-        if x["error_msg"] == "":
-            val_x = float(x["x_coordinate"])
-            val_y = float(x["y_coordinate"])
+
+    date_time_str_from = datetimeFrom
+    date_time_str_until = datetimeTo
+
+    timeFrom = datetime.datetime.strptime(date_time_str_from, '%d.%m.%Y %H:%M:%S.%f')
+    timeUntil = datetime.datetime.strptime(date_time_str_until, '%d.%m.%Y %H:%M:%S.%f')
+
+    for rec in locationCollection.find({"zone_id": deploymentName}):
+        timestampVal = datetime.datetime.strptime(rec["timestamp"], '%d.%m.%Y %H:%M:%S.%f')
+        if rec["error_msg"] == "" and timestampVal >= timeFrom and timestampVal <= timeUntil:
+            tagId = str(rec["tag_id"])
+            if tagId not in distinctRecords:
+                distinctRecords[tagId] = [[], []]
+            distinctRecords[tagId][0].append(float(rec["x_coordinate"]))
+            distinctRecords[tagId][1].append(float(rec["y_coordinate"]))
+
+            val_x = float(rec["x_coordinate"])
+            val_y = float(rec["y_coordinate"])
 
             if val_x < x_min:
                 x_min = copy.deepcopy(val_x)
@@ -171,10 +185,13 @@ def formatElikoData(datetimeFrom, datetimeTo, deploymentName):
             if val_y > y_max:
                 y_max = copy.deepcopy(val_y)
 
+    return distinctRecords
+
+    # For data with timestamp
+    """
             coordinates.append([float(x["x_coordinate"]), float(x["y_coordinate"])])
 
             records.append(x)
-
     if len(records) > 0:
         date_time_str_from = datetimeFrom
         date_time_str_until = datetimeTo
@@ -204,9 +221,7 @@ def formatElikoData(datetimeFrom, datetimeTo, deploymentName):
                 distinctRecordsWithTime[tagId]["zone_id"].append(rec["zone_id"])
 
                 xCoordArr.append(float(rec["x_coordinate"]))
-                yCoordArr.append(float(rec["y_coordinate"]))
-
-    return distinctRecords
+                yCoordArr.append(float(rec["y_coordinate"]))"""
 
 
 def formatDecawaveData(datetimeFrom, datetimeTo, zoneId, offset, deploymentName):
@@ -216,15 +231,30 @@ def formatDecawaveData(datetimeFrom, datetimeTo, zoneId, offset, deploymentName)
     global y_max
     global locationCollection
 
-    records = []
+    #records = []
     distinctRecords = {}
+
+    date_time_str_from = datetimeFrom
+    date_time_str_until = datetimeTo
+
+    timeFrom = datetime.datetime.strptime(date_time_str_from, '%d.%m.%Y %H:%M:%S.%f')
+    timeUntil = datetime.datetime.strptime(date_time_str_until, '%d.%m.%Y %H:%M:%S.%f')
+
     if isinstance(zoneId, list):
-        for x in locationCollection.find({"zone_id": {"$in": zoneId}, "name": deploymentName}):
-            if not math.isnan(x["x_coordinate"]):
-                val_x = float(x["x_coordinate"]) - offset
-                val_y = float(x["y_coordinate"]) - offset
-                x["x_coordinate"] = x["x_coordinate"] - offset
-                x["y_coordinate"] = x["y_coordinate"] - offset
+        for rec in locationCollection.find({"zone_id": {"$in": zoneId}, "name": deploymentName}):
+            timestampVal = datetime.datetime.strptime(rec["timestamp"], '%Y-%m-%d %H:%M:%S.%f')
+            if not math.isnan(rec["x_coordinate"]) and timestampVal >= timeFrom and timestampVal <= timeUntil:
+                rec["x_coordinate"] = rec["x_coordinate"] - offset
+                rec["y_coordinate"] = rec["y_coordinate"] - offset
+
+                tagId = str(rec["tag_id"])
+                if tagId not in distinctRecords:
+                    distinctRecords[tagId] = [[], []]
+                distinctRecords[tagId][0].append(float(rec["x_coordinate"]))
+                distinctRecords[tagId][1].append(float(rec["y_coordinate"]))
+
+                val_x = float(rec["x_coordinate"]) - offset
+                val_y = float(rec["y_coordinate"]) - offset
 
                 if val_x < x_min:
                     x_min = copy.deepcopy(val_x)
@@ -238,16 +268,27 @@ def formatDecawaveData(datetimeFrom, datetimeTo, zoneId, offset, deploymentName)
                 if val_y > y_max:
                     y_max = copy.deepcopy(val_y)
 
-                coordinates.append([float(x["x_coordinate"]), x["y_coordinate"]])
+                # For data with timestamp
+                #coordinates.append([float(x["x_coordinate"]), x["y_coordinate"]])
 
-                records.append(x)
+                #records.append(x)
     else:
-        for x in locationCollection.find({"zone_id": zoneId, "name": deploymentName}):
-            if not math.isnan(x["x_coordinate"]):
-                val_x = float(x["x_coordinate"]) - offset
-                val_y = float(x["y_coordinate"]) - offset
-                x["x_coordinate"] = x["x_coordinate"] - offset
-                x["y_coordinate"] = x["y_coordinate"] - offset
+        for rec in locationCollection.find({"zone_id": zoneId, "name": deploymentName}):
+            timestampVal = datetime.datetime.strptime(rec["timestamp"], '%Y-%m-%d %H:%M:%S.%f')
+            if not math.isnan(rec["x_coordinate"]) and rec["x_coordinate"] > offset\
+               and timestampVal >= timeFrom and rec["y_coordinate"] > offset\
+               and timestampVal <= timeUntil:
+                rec["x_coordinate"] = rec["x_coordinate"] - offset
+                rec["y_coordinate"] = rec["y_coordinate"] - offset
+
+                tagId = str(rec["tag_id"])
+                if tagId not in distinctRecords:
+                    distinctRecords[tagId] = [[], []]
+                distinctRecords[tagId][0].append(float(rec["x_coordinate"]))
+                distinctRecords[tagId][1].append(float(rec["y_coordinate"]))
+
+                val_x = float(rec["x_coordinate"]) - offset
+                val_y = float(rec["y_coordinate"]) - offset
 
                 if val_x < x_min:
                     x_min = copy.deepcopy(val_x)
@@ -261,6 +302,10 @@ def formatDecawaveData(datetimeFrom, datetimeTo, zoneId, offset, deploymentName)
                 if val_y > y_max:
                     y_max = copy.deepcopy(val_y)
 
+    return distinctRecords
+
+    # For data with timestamp
+    """
                 coordinates.append([float(x["x_coordinate"]), x["y_coordinate"]])
 
                 records.append(x)
@@ -295,8 +340,7 @@ def formatDecawaveData(datetimeFrom, datetimeTo, zoneId, offset, deploymentName)
 
                 xCoordArr.append(float(rec["x_coordinate"]))
                 yCoordArr.append(float(rec["y_coordinate"]))
-
-    return distinctRecords
+    """
 
 if __name__ == "__main__":
     app.run(debug=True)

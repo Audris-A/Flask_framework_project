@@ -77,6 +77,10 @@ def createPlot():
     global x_max
     global y_min
     global y_max
+    x_min = 1000
+    x_max = -1000
+    y_min = 1000
+    y_max = -1000
 
     distinctRecords = {}
     requestType = request.form['type']  # 1 -> Decawave, 2 -> Eliko
